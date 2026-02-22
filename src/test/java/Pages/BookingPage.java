@@ -11,10 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class BookingPage extends Utils {
-
-    /* =========================
-       LOCATORS
-       ========================= */
+    //LOCATORS//
 
     public By ClosePopup = By.xpath("//div[@class='pb-1 px-1 flex flex-middle nmx-1']");
     public By ClickBusTab = By.xpath("//p[text()='Buses']");
@@ -36,13 +33,10 @@ public class BookingPage extends Utils {
     //    Bus Selection
     public By SelectBus = By.xpath("//div[@id='0_0']//button[@class='sc-dcJsrY itZaiI']");
 
-//    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     public By lowerCanvas = By.xpath("//div[contains(@class,'lower')]//canvas");
 
     public By ContinueButton = By.xpath("//button[contains(text(),'Continue')]");
 
-    //     Pickup point and Drop of point
     public By pick = By.id("Pick-up point");
     public By inputPickup = By.xpath("(//div[contains(@class,'sc-aXZVg fc')])[1]");
 
@@ -51,32 +45,23 @@ public class BookingPage extends Utils {
 
     public By ContinuetoNext = By.xpath("//button[contains(@class,'sc-dcJsrY e')]");
 
-    //    Traveller details
     public By genderMale = By.xpath("(//div[@class='flex']//p[@class='sc-gEvEer caysYx flex flex-middle mr-1 c-pointer'])[1]");
     public By genderFemale = By.xpath("//div[contains(@class,'sc-aXZVg ga')]//div[contains(@class,'flex flex-c')]");
     public By Firstname = By.id("firstName_0");
-    //    public By inputFirstName =
     public By Lastname = By.id("lastNmae_0");
     public By Age = By.id("age_0");
 
-    //    Ticket details will be sent to
     public By Mobile = By.id("mobile");
     public By Email = By.id("email");
 
-    //    Review itinerary
     public By Review = By.xpath("//button[contains(@class,'sc-dcJsrY c')]");
 
-    //      Continue To Payment
     public By Payment = By.xpath("//button[@class='sc-dcJsrY czbNFO']");
 
-    //      Pay To Complete Your Booking
+
     public By completePayment = By.xpath("//h1[@class='fs-7 fw-600 c-neutral-900']");
 
-//    +-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    /* =========================
-       BASIC FLOW METHODS
-       ========================= */
+    //METHODS
 
     public void Popup() {
         wait.until(ExpectedConditions.elementToBeClickable(ClosePopup)).click();
@@ -124,20 +109,15 @@ public class BookingPage extends Utils {
         wait.until(ExpectedConditions.elementToBeClickable(SelectAc)).click();
         wait.until(ExpectedConditions.elementToBeClickable(SleeperPill)).click();
     }
-//-------------------------------------------------------------------------------------------------------------------------------------
-    /* =========================
-       SELECT BEST BUS
-       ========================= */
 
+//SELECT BUS
     public void SelectFirstBus() {
         wait.until(ExpectedConditions.elementToBeClickable(SelectBus)).click();
     }
 
-    /* =========================
-       SEAT SELECTION LOGIC
-       ========================= */
+   //SELECT SEAT
 
-//  ===>>    CODE 1    <<===
+
 
     public void selectLowestPriceSeatOnLowerDeck() {
         // 1. Wait for canvas and scroll it into view
@@ -188,17 +168,6 @@ public class BookingPage extends Utils {
         }
     }
 
-    /* =========================
-       HELPER METHODS
-       ========================= */
-
-//    private void deselectAllSeats() {
-//        List<WebElement> selectedSeats =
-//                driver.findElements(By.xpath("//img[@id='canv-Selected-img' and contains(@style,'block')]"));
-//        if (!selectedSeats.isEmpty()) {
-//            selectedSeats.get(0).click();
-//        }
-//    }
 
     //    Type 1
     private boolean isSeatSelected() {
@@ -210,32 +179,17 @@ public class BookingPage extends Utils {
 
         }
     }
-//    Type 2
-//    private boolean waitForSeatSelection() {
-//        try {
-//            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(1));
-//            shortWait.until(ExpectedConditions.elementToBeClickable(ContinueButton));
-//            return true;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
+
 
     private void clickCanvasCoordinate(WebElement canvas, int xOffset, int yOffset) {
-        // Selenium's Actions.moveToElement(element, x, y) moves relative to the CENTER of the element.
-        // We convert your 0,0 (top-left) coordinates to center-relative coordinates.
+
         int centerXOffset = xOffset - (canvas.getSize().getWidth() / 2);
         int centerYOffset = yOffset - (canvas.getSize().getHeight() / 2);
 
-        new org.openqa.selenium.interactions.Actions(driver)
-                .moveToElement(canvas, centerXOffset, centerYOffset)
-                .click()
-                .perform();
+        new org.openqa.selenium.interactions.Actions(driver).moveToElement(canvas, centerXOffset, centerYOffset).click().perform();
     }
 
-        /* =========================
-       PICKUP / DROP
-       ========================= */
+
 
     public void pickUpPoint(String up) throws InterruptedException {
         Thread.sleep(3000);
@@ -261,9 +215,7 @@ public class BookingPage extends Utils {
         Thread.sleep(3000);
     }
 
-        /* =========================
-       TRAVELLER
-       ========================= */
+      //TRAVELLER DETAILS
 
     public void GenderMale() {
         wait.until(ExpectedConditions.elementToBeClickable(genderMale)).click();
@@ -292,89 +244,47 @@ public class BookingPage extends Utils {
     public void EmailAddress(String email) throws InterruptedException {
         wait.until(ExpectedConditions.elementToBeClickable(Email)).sendKeys(email);
     }
-    /* =========================
-       REVIEW + PRINT DETAILS
-       ========================= */
+   //REVIEW
 
     public void review() throws InterruptedException {
         wait.until(ExpectedConditions.elementToBeClickable(Review)).click();
         Thread.sleep(3000);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[contains(@class,'flex-column')]")
-        ));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'flex-column')]")));
         // Travels Name
-        String travelsName = driver.findElement(
-                By.xpath("(//div[contains(@class,'flex-column')]//p)[1]")
-        ).getText();
+        String travelsName = driver.findElement(By.xpath("(//div[contains(@class,'flex-column')]//p)[1]")).getText();
         // Bus Type
-        String busType = driver.findElement(
-                By.xpath("(//div[contains(@class,'flex-column')]//p)[2]")
-        ).getText();
+        String busType = driver.findElement(By.xpath("(//div[contains(@class,'flex-column')]//p)[2]")).getText();
         // Date
-        String journeyDate = driver.findElement(
-                By.xpath("(//p[contains(text(),',')])[2]")
-        ).getText();
+        String journeyDate = driver.findElement(By.xpath("(//p[contains(text(),',')])[2]")).getText();
         // From City
-        String fromCity = driver.findElement(
-                By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//p)[1]")
-        ).getText();
+        String fromCity = driver.findElement(By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//p)[1]")).getText();
         // Departure Time
-        String departureTime = driver.findElement(
-                By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//h1)[1]")
-        ).getText();
+        String departureTime = driver.findElement(By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//h1)[1]")).getText();
         // Pickup Point
-        String pickupPoint = driver.findElement(
-                By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//p)[2]")
-        ).getText();
+        String pickupPoint = driver.findElement(By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//p)[2]")).getText();
         // Duration
-        String duration = driver.findElement(
-                By.xpath("//div[@class='sc-aXZVg gyynpj sc-f6cad7e7-1 iEjIqg p-relative flex flex-middle ']")
-        ).getText();
+        String duration = driver.findElement(By.xpath("//div[@class='sc-aXZVg gyynpj sc-f6cad7e7-1 iEjIqg p-relative flex flex-middle ']")).getText();
         // Arrival Time
-        String arrivalTime = driver.findElement(
-                By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//h1)[2]")
-        ).getText();
+        String arrivalTime = driver.findElement(By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//h1)[2]")).getText();
         // To City
-        String toCity = driver.findElement(
-                By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//p)[3]")
-        ).getText();
+        String toCity = driver.findElement(By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//p)[3]")).getText();
         // Drop Point
-        String dropPoint = driver.findElement(
-                By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//p)[4]")
-        ).getText();
-        String baseFare = driver.findElement(
-                By.xpath("//*[contains(text(),'Base fare')]/following::p[1]")
-        ).getText();
-        String tax = driver.findElement(
-                By.xpath("//*[contains(text(),'Tax')]/following::p[1]")
-        ).getText();
-        String convenienceFee = driver.findElement(
-                By.xpath("//*[contains(text(),'Convenience fee')]/following::p[1]")
-        ).getText();
-        String totalAmount = driver.findElement(
-                By.xpath("(//h2[@class='sc-gEvEer dAbDZN'])[2]")
-        ).getText();
+        String dropPoint = driver.findElement(By.xpath("(//div[contains(@class,'sc-aXZVg bMkrZJ')]//p)[4]")).getText();
+        String baseFare = driver.findElement(By.xpath("//*[contains(text(),'Base fare')]/following::p[1]")).getText();
+        String tax = driver.findElement(By.xpath("//*[contains(text(),'Tax')]/following::p[1]")).getText();
+        String convenienceFee = driver.findElement(By.xpath("//*[contains(text(),'Convenience fee')]/following::p[1]")).getText();
+        String totalAmount = driver.findElement(By.xpath("(//h2[@class='sc-gEvEer dAbDZN'])[2]")).getText();
         // Wait for section
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//*[contains(text(),'Review traveller details')]")
-        ));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'Review traveller details')]")));
         // Seat Number
-        String seatNumber = driver.findElement(
-                By.xpath("//*[contains(text(),'Review traveller details')]/following::p[1]")
-        ).getText();
+        String seatNumber = driver.findElement(By.xpath("//*[contains(text(),'Review traveller details')]/following::p[1]")).getText();
         // Traveller Info (Name, Age, Gender)
-        String travellerInfo = driver.findElement(
-                By.xpath("//p[@class='sc-gEvEer kdZUgb ml-1']")
-        ).getText();
+        String travellerInfo = driver.findElement(By.xpath("//p[@class='sc-gEvEer kdZUgb ml-1']")).getText();
         // Email
-        String email = driver.findElement(
-                By.xpath("//*[contains(text(),'Ticket details will be sent to')]/following::p[1]")
-        ).getText();
+        String email = driver.findElement(By.xpath("//*[contains(text(),'Ticket details will be sent to')]/following::p[1]")).getText();
         // Mobile
-        String mobile = driver.findElement(
-                By.xpath("//*[contains(text(),'Ticket details will be sent to')]/following::p[2]")
-        ).getText();
-        System.out.println("------------ BUS DETAILS ------------");
+        String mobile = driver.findElement(By.xpath("//*[contains(text(),'Ticket details will be sent to')]/following::p[2]")).getText();
+        System.out.println("BOOKING DETAILS");
         System.out.println("Travels Name : " + travelsName);
         System.out.println("Bus Type     : " + busType);
         System.out.println("Date         : " + journeyDate);
@@ -383,17 +293,16 @@ public class BookingPage extends Utils {
         System.out.println("Duration     : " + duration);
         System.out.println("To           : " + toCity + " - " + arrivalTime);
         System.out.println("Drop Point   : " + dropPoint);
-        System.out.println("======= PRICE BREAKUP =======");
+        System.out.println("PRICE STRUCTURE");
         System.out.println("Base Fare        : " + baseFare);
         System.out.println("Tax              : " + tax);
         System.out.println("Convenience Fee  : " + convenienceFee);
         System.out.println("Total Payable    : " + totalAmount);
-        System.out.println("======= TRAVELLER DETAILS =======");
+        System.out.println("TRAVELLER DETAILS");
         System.out.println("Seat Number     : " + seatNumber);
         System.out.println("Traveller       : " + travellerInfo);
         System.out.println("Email           : " + email);
         System.out.println("Mobile          : " + mobile);
-        System.out.println("=================================");
     }
     public void ProceedtoPayment () throws InterruptedException {
         Thread.sleep(3000);
