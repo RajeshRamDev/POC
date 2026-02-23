@@ -1,7 +1,4 @@
-
-
 package Pages;
-
 import CommonBase.Utils;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -30,7 +27,7 @@ public class BookingPage extends Utils {
     public By SelectAc = By.xpath("//div[@data-testid='pill-wrapper']//p[normalize-space()='AC']");
     public By SleeperPill = By.xpath("//div[@data-testid='pill-wrapper']//p[normalize-space()='Sleeper']");
 
-    //    Bus Selection
+    //BUS SELECTION LOCATORS
     public By SelectBus = By.xpath("//div[@id='0_0']//button[@class='sc-dcJsrY itZaiI']");
 
     public By lowerCanvas = By.xpath("//div[contains(@class,'lower')]//canvas");
@@ -55,6 +52,7 @@ public class BookingPage extends Utils {
     public By Email = By.id("email");
 
     public By Review = By.xpath("//button[contains(@class,'sc-dcJsrY c')]");
+    //PAYMENT LOCATORS
 
     public By Payment = By.xpath("//button[@class='sc-dcJsrY czbNFO']");
 
@@ -62,15 +60,15 @@ public class BookingPage extends Utils {
     public By completePayment = By.xpath("//h1[@class='fs-7 fw-600 c-neutral-900']");
 
     //METHODS
-
+//CLOSE POP UP
     public void Popup() {
         wait.until(ExpectedConditions.elementToBeClickable(ClosePopup)).click();
     }
-
+//CHOOSE BUS TAB
     public void BusTab() {
         wait.until(ExpectedConditions.elementToBeClickable(ClickBusTab)).click();
     }
-
+//CHOOSE FROM CITY
     public void Fromcity(String city) {
         WebElement from = wait.until(ExpectedConditions.visibilityOfElementLocated(FromCity));
         from.clear();
@@ -82,7 +80,7 @@ public class BookingPage extends Utils {
         }
         wait.until(ExpectedConditions.elementToBeClickable(FromInput)).click();
     }
-
+//CHOOSE TO CITY
     public void ToCity(String city) {
         WebElement to = wait.until(ExpectedConditions.visibilityOfElementLocated(ToInput));
         to.clear();
@@ -114,10 +112,7 @@ public class BookingPage extends Utils {
     public void SelectFirstBus() {
         wait.until(ExpectedConditions.elementToBeClickable(SelectBus)).click();
     }
-
    //SELECT SEAT
-
-
 
     public void selectLowestPriceSeatOnLowerDeck() {
         // 1. Wait for canvas and scroll it into view
@@ -169,7 +164,7 @@ public class BookingPage extends Utils {
     }
 
 
-    //    Type 1
+    //   ASSERTION
     private boolean isSeatSelected() {
         try {
             WebElement btn = driver.findElement(ContinueButton);
@@ -180,7 +175,7 @@ public class BookingPage extends Utils {
         }
     }
 
-
+// CANVAS CO-ORDINATES
     private void clickCanvasCoordinate(WebElement canvas, int xOffset, int yOffset) {
 
         int centerXOffset = xOffset - (canvas.getSize().getWidth() / 2);
@@ -190,7 +185,7 @@ public class BookingPage extends Utils {
     }
 
 
-
+// PICK UP POINT
     public void pickUpPoint(String up) throws InterruptedException {
         Thread.sleep(3000);
         WebElement pickup = wait.until(ExpectedConditions.visibilityOfElementLocated(pick));
@@ -199,6 +194,7 @@ public class BookingPage extends Utils {
         wait.until(ExpectedConditions.elementToBeClickable(inputPickup)).click();
         Thread.sleep(3000);
     }
+    // DROP POINT
 
     public void dropOffPoint(String off) throws InterruptedException {
         Thread.sleep(3000);
@@ -208,7 +204,7 @@ public class BookingPage extends Utils {
         wait.until(ExpectedConditions.elementToBeClickable(inputDrop)).click();
         Thread.sleep(3000);
     }
-
+//CONTINUE BTN
     public void Continuetonext() throws InterruptedException {
         Thread.sleep(3000);
         wait.until(ExpectedConditions.elementToBeClickable(ContinuetoNext)).click();
@@ -304,15 +300,18 @@ public class BookingPage extends Utils {
         System.out.println("Email           : " + email);
         System.out.println("Mobile          : " + mobile);
     }
+    //PROCEED TO CHOOSE PAYMENT
     public void ProceedtoPayment () throws InterruptedException {
         Thread.sleep(3000);
         wait.until(ExpectedConditions.visibilityOfElementLocated(Payment)).click();
     }
+    // VIEW PAYMENT
     public void ViewPayment () throws InterruptedException {
         Thread.sleep(3000);
         wait.until(ExpectedConditions.visibilityOfElementLocated(completePayment));
         Thread.sleep(3000);
     }
+    //TAKE SCREENSHOT
     public void takeScreenshot()  {
         TakesScreenshot ts = (TakesScreenshot) driver;
         File source = ts.getScreenshotAs(OutputType.FILE);
